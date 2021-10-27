@@ -5,6 +5,7 @@ class Compass {
     pointer;
 
     constructor (pointer) {
+        alert("constructor");
         this.pointer = pointer;
         this.show();
         //window.setInterval(this.show.bind(this), this.interval);
@@ -34,6 +35,7 @@ class Compass {
     */
 
     show () {
+        alert("show");
         var d = this.getTimezoneTime();
         var h = d.getHours() + (d.getMinutes() / 60);
 
@@ -53,7 +55,9 @@ class Compass {
 
         // Rotate pointer:
         this.pointer.style.rotate = pAngle + "deg";
+        this.pointer.style.display = "block";
     };
 }
 
+alert("start");
 new Compass(document.getElementById("pointer"));
