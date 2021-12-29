@@ -1,3 +1,18 @@
+class Functile {
+    
+    static each (a, f) {
+        if (a.hasOwnProperty("length")) {
+            for (var i = 0, l = a.length; i < l; ++i) {
+                f(a[i], i, a);
+            }
+        } else {
+            for (var i in a) {
+                f(a[i], i, a);
+            }
+        }
+    }
+}
+
 class Compass {
 
     interval = 1000;
@@ -5,7 +20,6 @@ class Compass {
     pointer;
 
     constructor (pointer) {
-        alert("constructor");
         this.pointer = pointer;
         this.show();
         //window.setInterval(this.show.bind(this), this.interval);
@@ -35,7 +49,6 @@ class Compass {
     */
 
     show () {
-        alert("show");
         var d = this.getTimezoneTime();
         var h = d.getHours() + (d.getMinutes() / 60);
 
@@ -54,10 +67,22 @@ class Compass {
         */
 
         // Rotate pointer:
-        this.pointer.style.rotate = pAngle + "deg";
-        this.pointer.style.display = "block";
+        var rot = ":rotate(" + pAngle + "deg)";
+        var style = [];
+        Functile.each(
+            [
+                "transform",
+                "-ms-transform",
+                "-moz-transform",
+                "-webkit-transform",
+                "-o-transform"
+            ],
+            function (el) {
+                style.unshift(el + rot);
+            }
+        );
+        this.pointer.setAttribute("style", style.join(";") + "; display: block;");
     };
 }
 
-alert("start");
 new Compass(document.getElementById("pointer"));
